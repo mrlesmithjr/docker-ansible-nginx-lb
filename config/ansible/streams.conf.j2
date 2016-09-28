@@ -1,20 +1,20 @@
 upstream dns_udp_upstreams {
-    server {{ backend_service_name }}:{{ backend_service_port}};
+    server {{ backend_service_name }}:{{ backend_service_port }};
 }
 
 upstream dns_tcp_upstreams {
-    server {{ backend_service_name }}:{{ backend_service_port}};
+    server {{ backend_service_name }}:{{ backend_service_port }};
 }
 
 server {
-    listen {{ backend_service_port }} udp;
+    listen {{ frontend_service_port }} udp;
     proxy_pass dns_udp_upstreams;
     proxy_timeout 1s;
     proxy_responses 1;
 }
 
 server {
-    listen {{ backend_service_port }};
+    listen {{ frontend_service_port }};
     proxy_pass dns_tcp_upstreams;
     proxy_timeout 1s;
 }

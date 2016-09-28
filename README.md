@@ -17,6 +17,8 @@ Consuming
 ```
 docker run -d -p 53:53 -p 53:53/udp \
   -e BACKEND_SERVICE_NAME="dns-servers" \
+  -e BACKEND_SERVICE_PORT="53" \
+  -e FRONTEND_SERVICE_PORT="53" \
   mrlesmithjr/nginx-lb:ubuntu-dns-lb
 ```
 

@@ -3,7 +3,8 @@ FROM mrlesmithjr/ubuntu-ansible:16.04
 MAINTAINER Larry Smith Jr. <mrlesmithjr@gmail.com>
 
 ENV BACKEND_SERVICE_NAME="dns-servers" \
-    BACKEND_SERVICE_PORT="53"
+    BACKEND_SERVICE_PORT="53" \
+    FRONTEND_SERVICE_PORT="53"
 
 # Copy Ansible Related Files
 COPY config/ansible/ /

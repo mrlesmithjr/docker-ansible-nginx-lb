@@ -1,5 +1,5 @@
 [program:rancher-gen]
-command={{ rancher_gen_command }} --host '{{ rancher_host }}' --port '{{ rancher_host_port }}' --access-key '{{ rancher_access_key }}' --secret-key '{{ rancher_secret_key }}' --project-id '{{ rancher_project_id }}' --service '{{ rancher_service_name }}' --notify '{{ rancher_gen_notify_command }}' {{ rancher_gen_template }} {{ rancher_gen_dest }}
+command={{ rancher_gen_command }} --host '{{ rancher_host }}' --port '{{ rancher_host_port }}' --access-key '{{ rancher_access_key }}' --secret-key '{{ rancher_secret_key }}' --project-id '{{ rancher_project_id }}' --stack '{{ rancher_stack_name }}' --service '{{ rancher_service_name }}' --notify '{{ rancher_gen_notify_command }}' {{ rancher_gen_template }} {{ rancher_gen_dest }}
 stdout_events_enabled=true
 stderr_events_enabled=true
 autostart=true

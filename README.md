@@ -30,6 +30,7 @@ docker run -d -p 53:53 -p 53:53/udp \
   -e RANCHER_PROJECT_ID="1a5" \
   -e RANCHER_SECRET_KEY="Yerrhb4sbmXyhzT4ihn5teBTkoKcnxbGzKvEptva" \
   -e RANCHER_SERVICE_NAME="pdns-authoritative" \
+  -e RANCHER_STACK_NAME="DDI"
   mrlesmithjr/nginx-lb:ubuntu-dns-lb-rancher
 ```
 

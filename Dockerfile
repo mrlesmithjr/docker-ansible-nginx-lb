@@ -2,8 +2,8 @@ FROM mrlesmithjr/ubuntu-ansible:16.04
 
 MAINTAINER Larry Smith Jr. <mrlesmithjr@gmail.com>
 
-ENV BACKEND_SERVICE_NAME="dns-servers" \
-    BACKEND_SERVICE_PORT="53"
+ENV BACKEND_SERVICE_NAME="syslog-servers" \
+    BACKEND_SERVICE_PORT="514"
 
 # Copy Ansible Related Files
 COPY config/ansible/ /
@@ -21,4 +21,4 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 
 COPY config/supervisord/*.conf /etc/supervisor/conf.d/
 
-EXPOSE 53 53/udp
+EXPOSE 514/udp

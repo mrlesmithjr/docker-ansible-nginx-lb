@@ -1,12 +1,12 @@
 Repo Info
 =========
-A [Docker] container to load-balance DNS services on `TCP/UDP`..
-`mrlesmithjr/nginx-lb:ubuntu-dns-lb`
+A [Docker] container to load-balance syslog services on `514/UDP`..
+`mrlesmithjr/nginx-lb:ubuntu-syslog-lb`
 
 Purpose
 -------
-To front-end DNS load-balancing to your containerized DNS services. Allowing
-for scaling out.
+To front-end syslog load-balancing to your containerized syslog services. Allowing
+for scaling out of syslog UDP services which cannot be load-balanced with HAProxy.
 
 Requirements
 ------------
@@ -15,9 +15,9 @@ Define your [Docker] service group-name when spinning up.
 Consuming
 ---------
 ```
-docker run -d -p 53:53 -p 53:53/udp \
-  -e BACKEND_SERVICE_NAME="dns-servers" \
-  mrlesmithjr/nginx-lb:ubuntu-dns-lb
+docker run -d -p 514:514/udp \
+  -e BACKEND_SERVICE_NAME="syslog-servers" \
+  mrlesmithjr/nginx-lb:ubuntu-syslog-lb
 ```
 
 License

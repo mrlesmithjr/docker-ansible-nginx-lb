@@ -1,11 +1,11 @@
 Repo Info
 =========
-A [Docker] container to load-balance DNS services on `TCP/UDP`..
-`mrlesmithjr/nginx-lb:ubuntu-dns-lb`
+A [Docker] container to load-balance generic services on `TCP`..
+`mrlesmithjr/nginx-lb:ubuntu-tcp-lb`
 
 Purpose
 -------
-To front-end DNS load-balancing to your containerized DNS services. Allowing
+To front-end TCP load-balancing to your containerized TCP services. Allowing
 for scaling out.
 
 Requirements
@@ -15,9 +15,11 @@ Define your [Docker] service group-name when spinning up.
 Consuming
 ---------
 ```
-docker run -d -p 53:53 -p 53:53/udp \
-  -e BACKEND_SERVICE_NAME="dns-servers" \
-  mrlesmithjr/nginx-lb:ubuntu-dns-lb
+docker run -d -p 5601:5601 \
+  -e BACKEND_SERVICE_NAME="kibana-web" \
+  -e BACKEND_SERVICE_PORT="5601" \
+  -e FRONTEND_SERVICE_PORT="5601" \
+  mrlesmithjr/nginx-lb:ubuntu-tcp-lb
 ```
 
 License

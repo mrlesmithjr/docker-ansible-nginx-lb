@@ -2,8 +2,9 @@ FROM mrlesmithjr/ubuntu-ansible:16.04
 
 MAINTAINER Larry Smith Jr. <mrlesmithjr@gmail.com>
 
-ENV BACKEND_SERVICE_NAME="dns-servers" \
-    BACKEND_SERVICE_PORT="53"
+ENV BACKEND_SERVICE_NAME="kibana-web" \
+    BACKEND_SERVICE_PORT="5601" \
+    FRONTEND_SERVICE_PORT="5601"
 
 # Copy Ansible Related Files
 COPY config/ansible/ /
@@ -21,4 +22,4 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 
 COPY config/supervisord/*.conf /etc/supervisor/conf.d/
 
-EXPOSE 53 53/udp
+EXPOSE 5601

@@ -1,24 +1,11 @@
-upstream dns_tcp_upstreams {
+upstream syslog_upstreams {
 {% for container in containers %}
     server {{container['primaryIpAddress']}}:backend_service_port;
 {% endfor %}
-}
-
-upstream dns_udp_upstreams {
-{% for container in containers %}
-    server {{container['primaryIpAddress']}}:backend_service_port;
-{% endfor %}
-}
-
-server {
-    listen frontend_service_port;
-    proxy_pass dns_tcp_upstreams;
-    proxy_timeout 1s;
-    proxy_responses 1;
 }
 
 server {
     listen frontend_service_port udp;
-    proxy_pass dns_udp_upstreams;
+    proxy_pass syslog_upstreams;
     proxy_timeout 1s;
 }

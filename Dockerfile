@@ -2,8 +2,8 @@ FROM mrlesmithjr/ubuntu-ansible:16.04
 
 MAINTAINER Larry Smith Jr. <mrlesmithjr@gmail.com>
 
-ENV BACKEND_SERVICE_PORT="53" \
-    FRONTEND_SERVICE_PORT="53" \
+ENV BACKEND_SERVICE_PORT="514" \
+    FRONTEND_SERVICE_PORT="514" \
     RANCHER_ACCESS_KEY="" \
     RANCHER_HOST="" \
     RANCHER_HOST_PORT="8080" \
@@ -29,4 +29,4 @@ COPY config/supervisord/*.conf /etc/supervisor/conf.d/
 
 COPY config/rancher-gen/ /etc/
 
-EXPOSE 53 53/udp
+EXPOSE 514/udp

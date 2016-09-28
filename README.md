@@ -1,11 +1,11 @@
 Repo Info
 =========
-A [Docker] container to load-balance DNS services on `TCP/UDP`..
-`mrlesmithjr/nginx-lb:ubuntu-dns-lb`
+A [Docker] container to load-balance syslog services on `UDP`..
+`mrlesmithjr/nginx-lb:ubuntu-syslog-lb-rancher`
 
 Purpose
 -------
-To front-end DNS load-balancing to your containerized DNS services. Allowing
+To front-end syslog load-balancing to your containerized syslog services. Allowing
 for scaling out. Within this container [rancher-gen] is running to communicate
 with the [Rancher] API to watch for changes to containers based on service names.
 When a change is detected it will regenerate the NGINX configuration and reload
@@ -21,16 +21,16 @@ Define your [Docker] service group-name when spinning up.
 Consuming
 ---------
 ```
-docker run -d -p 53:53 -p 53:53/udp \
-  -e BACKEND_SERVICE_PORT="53" \
-  -e FRONTEND_SERVICE_PORT="53" \
+docker run -d -p 514:514/udp \
+  -e BACKEND_SERVICE_PORT="514" \
+  -e FRONTEND_SERVICE_PORT="514" \
   -e RANCHER_ACCESS_KEY="FDE76F55B411624BACB2" \
   -e RANCHER_HOST="docker00.etsbv.internal" \
   -e RANCHER_HOST_PORT="8080" \
   -e RANCHER_PROJECT_ID="1a5" \
   -e RANCHER_SECRET_KEY="Yerrhb4sbmXyhzT4ihn5teBTkoKcnxbGzKvEptva" \
-  -e RANCHER_SERVICE_NAME="pdns-authoritative" \
-  mrlesmithjr/nginx-lb:ubuntu-dns-lb
+  -e RANCHER_SERVICE_NAME="syslog-collector" \
+  mrlesmithjr/nginx-lb:ubuntu-syslog-lb-rancher-lb
 ```
 
 License

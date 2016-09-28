@@ -2,6 +2,11 @@
 - hosts: localhost
   become: true
   connection: local
+  vars:
+    rancher_gen_dl: '{{ rancher_gen_url }}/{{ rancher_gen_version }}/{{ rancher_gen_file }}'
+    rancher_gen_file: 'rancher-gen-linux-amd64.tar.gz'
+    rancher_gen_version: 'v0.2.0'
+    rancher_gen_url: 'https://github.com/janeczku/go-rancher-gen/releases/download'
   tasks:
     - name: Updating Apt-Cache
       apt:
@@ -39,3 +44,21 @@
       with_items:
         - '/run/nginx'
         - '/etc/nginx/stream.d'
+
+    - name: Downloading Rancher-Gen
+      get_url:
+        url: "{{ rancher_gen_dl }}"
+        dest: "/tmp/{{ rancher_gen_file }}"
+
+    - name: Extracting Rancher-Gen
+      unarchive:
+        src: "/tmp/{{ rancher_gen_file }}"
+        dest: "/usr/local/bin"
+        # mode: 0775
+
+    - name: Cleaning Up
+      file:
+        path: "{{ item }}"
+        state: "absent"
+      with_items:
+        - '/tmp/{{ rancher_gen_file }}'

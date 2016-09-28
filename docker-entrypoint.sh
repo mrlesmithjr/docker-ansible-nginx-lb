@@ -8,7 +8,7 @@ ansible-playbook -i "localhost," -c local /docker-entrypoint.yml \
   rancher_host_port=$RANCHER_HOST_PORT \
   rancher_project_id=$RANCHER_PROJECT_ID \
   rancher_secret_key=$RANCHER_SECRET_KEY \
-  rancher_service_name=$RANCHER_SERVICE_NAME" \
-  rancher_stack_name=$RANCHER_STACK_NAME
+  rancher_service_name=$RANCHER_SERVICE_NAME \
+  rancher_stack_name=$RANCHER_STACK_NAME"
 
 exec supervisord -n

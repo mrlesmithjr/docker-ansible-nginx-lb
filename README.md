@@ -6,19 +6,30 @@ A [Docker] container to load-balance DNS services on `TCP/UDP`..
 Purpose
 -------
 To front-end DNS load-balancing to your containerized DNS services. Allowing
-for scaling out.
+for scaling out. Within this container [rancher-gen] is running to communicate
+with the [Rancher] API to watch for changes to containers based on service names.
+When a change is detected it will regenerate the NGINX configuration and reload
+the service.
 
 Requirements
 ------------
+Generate an API key to use with the Rancher web management. You will also need
+to know what your Rancher project id (Environment) is. The example below uses
+the `Default` environment project id `1a5`.
 Define your [Docker] service group-name when spinning up.
 
 Consuming
 ---------
 ```
 docker run -d -p 53:53 -p 53:53/udp \
-  -e BACKEND_SERVICE_NAME="dns-servers" \
   -e BACKEND_SERVICE_PORT="53" \
   -e FRONTEND_SERVICE_PORT="53" \
+  -e RANCHER_ACCESS_KEY="FDE76F55B411624BACB2" \
+  -e RANCHER_HOST="docker00.etsbv.internal" \
+  -e RANCHER_HOST_PORT="8080" \
+  -e RANCHER_PROJECT_ID="1a5" \
+  -e RANCHER_SECRET_KEY="Yerrhb4sbmXyhzT4ihn5teBTkoKcnxbGzKvEptva" \
+  -e RANCHER_SERVICE_NAME="pdns-authoritative" \
   mrlesmithjr/nginx-lb:ubuntu-dns-lb
 ```
 
@@ -35,7 +46,6 @@ Larry Smith Jr.
 - [everythingshouldbevirtual.com]
 - [mrlesmithjr@gmail.com]
 
-[Alpine]: <https://alpinelinux.org/>
 [Ansible]: <https://www.ansible.com/>
 [Docker]: <https://www.docker.com>
 [@mrlesmithjr]: <https://twitter.com/mrlesmithjr>

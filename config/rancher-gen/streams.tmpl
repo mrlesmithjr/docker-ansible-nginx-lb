@@ -1,28 +1,20 @@
-upstream dns_udp_upstreams {
-{{ with service "{{ .Env.BACKEND_SERVICE_NAME }}" }}
-{{   range .Containers }}
-    server {{ .Address }}:{{ .Env.BACKEND_SERVICE_PORT }};
-{{   end }}
-{{ end }}
+upstream dns_tcp_upstreams {
+{% for container in containers %}server {{container['primaryIpAddress']}}:backend_service_port;{% endfor %}
 }
 
-upstream dns_tcp_upstreams {
-{{ with service "{{ .Env.BACKEND_SERVICE_NAME }}" }}
-{{   range .Containers }}
-    server {{ .Address }}:{{ .Env.BACKEND_SERVICE_PORT }};
-{{   end }}
-{{ end }}
+upstream dns_udp_upstreams {
+{% for container in containers %}server {{container['primaryIpAddress']}}:backend_service_port;{% endfor %}
 }
 
 server {
-    listen {{ .Env.FRONTEND_SERVICE_PORT }} udp;
-    proxy_pass dns_udp_upstreams;
+    listen frontend_service_port;
+    proxy_pass dns_tcp_upstreams;
     proxy_timeout 1s;
     proxy_responses 1;
 }
 
 server {
-    listen {{ .Env.FRONTEND_SERVICE_PORT }};
-    proxy_pass dns_tcp_upstreams;
+    listen frontend_service_port udp;
+    proxy_pass dns_udp_upstreams;
     proxy_timeout 1s;
 }

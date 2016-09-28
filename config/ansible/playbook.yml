@@ -24,6 +24,7 @@
         state: "present"
         install_recommends: no
       with_items:
+        - 'python-pip'
         - 'rsyslog'
         - 'supervisor'
 
@@ -45,20 +46,7 @@
         - '/run/nginx'
         - '/etc/nginx/stream.d'
 
-    - name: Downloading Rancher-Gen
-      get_url:
-        url: "{{ rancher_gen_dl }}"
-        dest: "/tmp/{{ rancher_gen_file }}"
-
-    - name: Extracting Rancher-Gen
-      unarchive:
-        src: "/tmp/{{ rancher_gen_file }}"
-        dest: "/usr/local/bin"
-        # mode: 0775
-
-    - name: Cleaning Up
-      file:
-        path: "{{ item }}"
-        state: "absent"
-      with_items:
-        - '/tmp/{{ rancher_gen_file }}'
+    - name: Installing Rancher-Gen
+      pip:
+        name: "rancher-gen"
+        state: "present"

@@ -2,9 +2,14 @@ FROM mrlesmithjr/ubuntu-ansible:16.04
 
 MAINTAINER Larry Smith Jr. <mrlesmithjr@gmail.com>
 
-ENV BACKEND_SERVICE_NAME="dns-servers" \
-    BACKEND_SERVICE_PORT="53" \
-    FRONTEND_SERVICE_PORT="53"
+ENV BACKEND_SERVICE_PORT="53" \
+    FRONTEND_SERVICE_PORT="53" \
+    RANCHER_ACCESS_KEY="" \
+    RANCHER_HOST="" \
+    RANCHER_HOST_PORT="8080" \
+    RANCHER_PROJECT_ID="1a5" \
+    RANCHER_SECRET_KEY="" \
+    RANCHER_SERVICE_NAME=""
 
 # Copy Ansible Related Files
 COPY config/ansible/ /

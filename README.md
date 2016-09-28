@@ -1,7 +1,7 @@
 Repo Info
 =========
 A [Docker] container to load-balance DNS services on `TCP/UDP`..
-`mrlesmithjr/nginx-lb:ubuntu-dns-lb`
+`mrlesmithjr/nginx-lb:ubuntu-dns-lb-rancher`
 
 Purpose
 -------
@@ -30,7 +30,34 @@ docker run -d -p 53:53 -p 53:53/udp \
   -e RANCHER_PROJECT_ID="1a5" \
   -e RANCHER_SECRET_KEY="Yerrhb4sbmXyhzT4ihn5teBTkoKcnxbGzKvEptva" \
   -e RANCHER_SERVICE_NAME="pdns-authoritative" \
-  mrlesmithjr/nginx-lb:ubuntu-dns-lb
+  mrlesmithjr/nginx-lb:ubuntu-dns-lb-rancher
+```
+
+Importing into Rancher stack:
+`docker-compose.yml`
+```
+dns-lb:
+  ports:
+  - 53:53/tcp
+  - 53:53/udp
+  environment:
+    BACKEND_SERVICE_PORT: '53'
+    FRONTEND_SERVICE_PORT: '53'
+    RANCHER_ACCESS_KEY: FDE76F55B411624BACB2
+    RANCHER_HOST: docker00.etsbv.internal
+    RANCHER_HOST_PORT: '8080'
+    RANCHER_PROJECT_ID: 1a5
+    RANCHER_SECRET_KEY: Yerrhb4sbmXyhzT4ihn5teBTkoKcnxbGzKvEptva
+    RANCHER_SERVICE_NAME: pdns-authoritative
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.container.dns: 'true'
+  tty: true
+  image: mrlesmithjr/nginx-lb:ubuntu-dns-lb-rancher
+  links:
+  - 'pdns-authoritative:'
+  stdin_open: true
+  net: host
 ```
 
 License

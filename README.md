@@ -1,11 +1,19 @@
 Repo Info
 =========
 A [Docker] container to load-balance DNS services on `TCP/UDP`..
+`mrlesmithjr/nginx-lb:ubuntu-dns-lb`
+
+Purpose
+-------
+To front-end DNS load-balancing to your containerized DNS services. Allowing
+for scaling out.
 
 Requirements
 ------------
 Define your [Docker] service group-name when spinning up.
 
+Consuming
+---------
 ```
 docker run -d -p 53:53 -p 53:53/udp \
   -e BACKEND_SERVICE_NAME="dns-servers" \
@@ -27,7 +35,6 @@ Larry Smith Jr.
 
 [Alpine]: <https://alpinelinux.org/>
 [Ansible]: <https://www.ansible.com/>
-[DNSMasq]: <http://www.thekelleys.org.uk/dnsmasq/doc.html>
 [Docker]: <https://www.docker.com>
 [@mrlesmithjr]: <https://twitter.com/mrlesmithjr>
 [everythingshouldbevirtual.com]: <http://everythingshouldbevirtual.com>

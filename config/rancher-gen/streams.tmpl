@@ -1,9 +1,13 @@
 upstream dns_tcp_upstreams {
-{% for container in containers %}server {{container['primaryIpAddress']}}:backend_service_port;{% endfor %}
+{% for container in containers %}
+    server {{container['primaryIpAddress']}}:backend_service_port;
+{% endfor %}
 }
 
 upstream dns_udp_upstreams {
-{% for container in containers %}server {{container['primaryIpAddress']}}:backend_service_port;{% endfor %}
+{% for container in containers %}
+    server {{container['primaryIpAddress']}}:backend_service_port;
+{% endfor %}
 }
 
 server {

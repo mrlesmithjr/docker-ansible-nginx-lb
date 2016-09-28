@@ -1,0 +1,33 @@
+---
+- hosts: localhost
+  become: true
+  connection: local
+  tasks:
+    - name: Updating APK Cache
+      apk:
+        update_cache: yes
+
+    - name: Installing NGINX
+      apk:
+        name: "nginx"
+        state: "present"
+
+#    - name: Installing NGINX Stream Mod
+#      apk:
+#        name: "nginx-mod-stream"
+#        state: "present"
+
+    - name: Installing Add'l Packages
+      apk:
+        name: "{{ item }}"
+        state: "present"
+      with_items:
+        - 'rsyslog'
+        - 'supervisor'
+
+    - name: Ensuring Folders exist
+      file:
+        path: "{{ item }}"
+        state: "directory"
+      with_items:
+        - '/run/nginx'

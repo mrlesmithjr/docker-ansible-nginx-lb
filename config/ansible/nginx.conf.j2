@@ -1,0 +1,36 @@
+#user  nobody;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+upstream dns_udp_upstreams {
+    server {{ backend_service_name }}:{{ backend_service_port}};
+}
+
+upstream dns_tcp_upstreams {
+    server {{ backend_service_name }}:{{ backend_service_port}};
+}
+
+http {
+  server {
+      listen {{ backend_service_port }} udp;
+      proxy_pass dns_udp_upstreams;
+      proxy_timeout 1s;
+      proxy_responses 1;
+  }
+
+  server {
+      listen {{ backend_service_port }};
+      proxy_pass dns_tcp_upstreams;
+      proxy_timeout 1s;
+  }
+}

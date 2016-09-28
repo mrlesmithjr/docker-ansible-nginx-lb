@@ -9,7 +9,8 @@ ENV BACKEND_SERVICE_PORT="514" \
     RANCHER_HOST_PORT="8080" \
     RANCHER_PROJECT_ID="1a5" \
     RANCHER_SECRET_KEY="" \
-    RANCHER_SERVICE_NAME=""
+    RANCHER_SERVICE_NAME="" \
+    RANCHER_STACK_NAME=""
 
 # Copy Ansible Related Files
 COPY config/ansible/ /

@@ -30,6 +30,7 @@ docker run -d -p 514:514/udp \
   -e RANCHER_PROJECT_ID="1a5" \
   -e RANCHER_SECRET_KEY="Yerrhb4sbmXyhzT4ihn5teBTkoKcnxbGzKvEptva" \
   -e RANCHER_SERVICE_NAME="syslog-collector" \
+  -e RANCHER_STACK_NAME="ELK"
   mrlesmithjr/nginx-lb:ubuntu-syslog-lb-rancher-lb
 ```
 

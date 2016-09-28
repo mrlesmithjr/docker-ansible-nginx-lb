@@ -17,6 +17,8 @@ Consuming
 ```
 docker run -d -p 514:514/udp \
   -e BACKEND_SERVICE_NAME="syslog-servers" \
+  -e BACKEND_SERVICE_PORT="514" \
+  -e FRONTEND_SERVICE_PORT="514" \
   mrlesmithjr/nginx-lb:ubuntu-syslog-lb
 ```
 

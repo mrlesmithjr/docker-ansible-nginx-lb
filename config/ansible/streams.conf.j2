@@ -1,9 +1,9 @@
 upstream syslog_udp_upstreams {
-    server {{ backend_service_name }}:{{ backend_service_port}};
+    server {{ backend_service_name }}:{{ backend_service_port }};
 }
 
 server {
-    listen {{ backend_service_port }} udp;
+    listen {{ frontend_service_port }} udp;
     proxy_pass syslog_udp_upstreams;
     proxy_timeout 1s;
     proxy_responses 1;

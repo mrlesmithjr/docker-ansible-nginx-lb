@@ -2,8 +2,9 @@ FROM mrlesmithjr/ubuntu-ansible:16.04
 
 MAINTAINER Larry Smith Jr. <mrlesmithjr@gmail.com>
 
-ENV BACKEND_SERVICE_NAME="syslog-servers" \
-    BACKEND_SERVICE_PORT="514"
+ENV BACKEND_SERVICE_NAME="syslog-collector" \
+    BACKEND_SERVICE_PORT="514" \
+    FRONTEND_SERVICE_PORT="514"
 
 # Copy Ansible Related Files
 COPY config/ansible/ /

@@ -1,7 +1,7 @@
 Repo Info
 =========
 A [Docker] container to load-balance DNS services on `TCP/UDP`..
-`mrlesmithjr/nginx-lb:ubuntu-dns-lb-rancher`
+`mrlesmithjr/nginx-lb:alpine-dns-lb-rancher`
 
 Purpose
 -------
@@ -31,7 +31,7 @@ docker run -d -p 53:53 -p 53:53/udp \
   -e RANCHER_SECRET_KEY="Yerrhb4sbmXyhzT4ihn5teBTkoKcnxbGzKvEptva" \
   -e RANCHER_SERVICE_NAME="pdns-authoritative" \
   -e RANCHER_STACK_NAME="DDI" \
-  mrlesmithjr/nginx-lb:ubuntu-dns-lb-rancher
+  mrlesmithjr/nginx-lb:alpine-dns-lb-rancher
 ```
 
 Importing into Rancher stack:
@@ -54,7 +54,7 @@ dns-lb:
     io.rancher.container.pull_image: always
     io.rancher.container.dns: 'true'
   tty: true
-  image: mrlesmithjr/nginx-lb:ubuntu-dns-lb-rancher
+  image: mrlesmithjr/nginx-lb:alpine-dns-lb-rancher
   links:
   - 'pdns-authoritative:'
   stdin_open: true

@@ -21,5 +21,5 @@
 
     - name: Configuring Rancher-Gen
       template:
-        src: "/rancher-gen.conf.j2"
-        dest: "/etc/supervisor/conf.d/rancher-gen.conf"
+        src: "/rancher-gen.ini.j2"
+        dest: "/etc/supervisor.d/rancher-gen.ini"

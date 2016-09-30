@@ -4,7 +4,7 @@
   connection: local
   vars:
     rancher_gen_dest: '/etc/nginx/stream.d/streams.conf'
-    rancher_gen_command: '/usr/local/bin/rancher-gen'
+    rancher_gen_command: '/usr/bin/rancher-gen'
     rancher_gen_notify_command: '/usr/sbin/nginx -s reload'
     rancher_gen_template: '/etc/streams.tmpl'
   tasks:

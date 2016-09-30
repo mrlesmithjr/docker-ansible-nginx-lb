@@ -89,6 +89,7 @@
         path: "/var/log/nginx"
         owner: "nginx"
         group: "nginx"
+        state: "directory"
 
     - name: Configuring NGINX
       template:

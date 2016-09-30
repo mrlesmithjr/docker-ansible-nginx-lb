@@ -1,4 +1,4 @@
-FROM mrlesmithjr/ubuntu-ansible:16.04
+FROM mrlesmithjr/alpine-ansible
 
 MAINTAINER Larry Smith Jr. <mrlesmithjr@gmail.com>
 
@@ -26,8 +26,10 @@ RUN chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-COPY config/supervisord/*.conf /etc/supervisor/conf.d/
+COPY config/supervisord/*.ini /etc/supervisor.d/
 
 COPY config/rancher-gen/ /etc/
 
 EXPOSE 53 53/udp
+
+CMD ["sh"]

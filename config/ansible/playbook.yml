@@ -3,35 +3,92 @@
   become: true
   connection: local
   vars:
+    nginx_dl: '{{ nginx_dl_url }}/{{ nginx_dl_file }}'
+    nginx_dl_file: 'nginx-{{ nginx_version }}.tar.gz'
+    nginx_dl_url: 'http://nginx.org/download'
+    nginx_pre_reqs:
+      - 'build-base'
+      - 'pcre-dev'
+      - 'openssl-dev'
+    nginx_version: '1.10.1'
     rancher_gen_dl: '{{ rancher_gen_url }}/{{ rancher_gen_version }}/{{ rancher_gen_file }}'
     rancher_gen_file: 'rancher-gen-linux-amd64.tar.gz'
     rancher_gen_version: 'v0.2.0'
     rancher_gen_url: 'https://github.com/janeczku/go-rancher-gen/releases/download'
   tasks:
-    - name: Updating Apt-Cache
-      apt:
+    - name: Updating APK-Cache
+      apk:
         update_cache: yes
 
-    - name: Installing NGINX
-      apt:
-        name: "nginx"
-        state: "present"
-        install_recommends: no
-
-    - name: Installing Add'l Packages
-      apt:
+    - name: Installing NGINX Pre-Reqs
+      apk:
         name: "{{ item }}"
         state: "present"
-        install_recommends: no
+      with_items: '{{ nginx_pre_reqs }}'
+
+    - name: Installing Add'l Packages
+      apk:
+        name: "{{ item }}"
+        state: "present"
       with_items:
-        - 'python-pip'
+        - 'pcre'
+        - 'py-pip'
         - 'rsyslog'
         - 'supervisor'
 
-    - name: Disabling Default NGINX Site
+    - name: Creating /opt
       file:
-        dest: "/etc/nginx/sites-enabled/default"
-        state: "absent"
+        path: "/opt"
+        state: "directory"
+
+    - name: Downloading Nginx Source
+      get_url:
+        url: "{{ nginx_dl }}"
+        dest: "/opt/{{ nginx_dl_file }}"
+
+    # - name: Extracting NGINX
+    #   unarchive:
+    #     src: "/opt/nginx-{{ nginx_version }}.tar.gz"
+    #     dest: "/opt"
+    #     copy: no
+
+    - name: Extracting Nginx
+      command: "tar -zxvf {{ nginx_dl_file }}"
+      args:
+        chdir: "/opt"
+
+    - name: Compiling Nginx
+      command: >
+              ./configure \
+              --prefix=/etc/nginx \
+              --sbin-path=/usr/sbin/nginx \
+              --conf-path=/etc/nginx/nginx.conf \
+              --pid-path=/var/run/nginx.pid \
+              --lock-path=/var/run/nginx.lock \
+              --with-http_ssl_module \
+              --with-threads \
+              --with-stream \
+              --with-http_slice_module
+      args:
+        chdir: "/opt/nginx-{{ nginx_version }}"
+
+    - name: Building Nginx
+      make:
+        chdir: "/opt/nginx-{{ nginx_version }}"
+
+    - name: Installing Nginx
+      make:
+        chdir: "/opt/nginx-{{ nginx_version }}"
+        target: "install"
+
+    - name: Creating Nginx User
+      command: "adduser -D nginx"
+
+    - name: Creating Nginx Log Directory
+      file:
+        path: "/var/log/nginx"
+        owner: "nginx"
+        group: "nginx"
 
     - name: Configuring NGINX
       template:
@@ -49,4 +106,23 @@
     - name: Installing Rancher-Gen
       pip:
         name: "rancher-gen"
+        state: "present"
+
+    - name: Cleaning Up Packages
+      apk:
+        name: "{{ item }}"
+        state: "absent"
+      with_items: '{{ nginx_pre_reqs }}'
+
+    - name: Cleaning Up
+      file:
+        path: "{{ item }}"
+        state: "absent"
+      with_items:
+        - '/tmp/{{ nginx_dl_file }}'
+        - '/tmp/nginx-{{ nginx_version }}'
+
+    - name: Installing PCRE  # Doing this here because it get removed when cleaning up
+      apk:
+        name: "pcre"
         state: "present"

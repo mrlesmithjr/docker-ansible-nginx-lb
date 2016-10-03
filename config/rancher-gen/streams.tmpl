@@ -1,11 +1,11 @@
-upstream syslog_upstreams {
+upstream web_upstreams {
 {% for container in containers %}
     server {{container['primaryIpAddress']}}:backend_service_port;
 {% endfor %}
 }
 
 server {
-    listen frontend_service_port udp;
-    proxy_pass syslog_upstreams;
+    listen frontend_service_port;
+    proxy_pass web_upstreams;
     proxy_timeout 1s;
 }

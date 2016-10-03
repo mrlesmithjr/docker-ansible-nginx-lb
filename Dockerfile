@@ -2,8 +2,8 @@ FROM mrlesmithjr/alpine-ansible
 
 MAINTAINER Larry Smith Jr. <mrlesmithjr@gmail.com>
 
-ENV BACKEND_SERVICE_PORT="514" \
-    FRONTEND_SERVICE_PORT="514" \
+ENV BACKEND_SERVICE_PORT="80" \
+    FRONTEND_SERVICE_PORT="8080" \
     RANCHER_ACCESS_KEY="" \
     RANCHER_HOST="" \
     RANCHER_HOST_PORT="8080" \
@@ -30,4 +30,4 @@ COPY config/supervisord/*.ini /etc/supervisor.d/
 
 COPY config/rancher-gen/ /etc/
 
-EXPOSE 514/udp
+EXPOSE 80 443 8080

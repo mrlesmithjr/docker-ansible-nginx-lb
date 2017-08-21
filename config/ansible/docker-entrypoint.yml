@@ -3,23 +3,8 @@
   become: true
   connection: local
   vars:
-    rancher_gen_dest: '/etc/nginx/stream.d/streams.conf'
-    rancher_gen_command: '/usr/bin/rancher-gen'
-    rancher_gen_notify_command: '/usr/sbin/nginx -s reload'
-    rancher_gen_template: '/etc/streams.tmpl'
   tasks:
-    - name: Updating Vars In /etc/rancher-gen.tmpl
-      replace:
-        dest: "/etc/streams.tmpl"
-        regexp: "{{ item.orig }}"
-        replace: "{{ item.new }}"
-      with_items:
-        - orig: 'backend_service_port'
-          new: '{{ backend_service_port }}'
-        - orig: 'frontend_service_port'
-          new: '{{ frontend_service_port }}'
-
-    - name: Configuring Rancher-Gen
+    - name: Configuring NGINX Load-Balancing
       template:
-        src: "/rancher-gen.ini.j2"
-        dest: "/etc/supervisor.d/rancher-gen.ini"
+        src: "/streams.conf.j2"
+        dest: "/etc/nginx/stream.d/streams.conf"

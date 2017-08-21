@@ -2,15 +2,9 @@ FROM mrlesmithjr/alpine-ansible
 
 MAINTAINER Larry Smith Jr. <mrlesmithjr@gmail.com>
 
-ENV BACKEND_SERVICE_PORT="53" \
-    FRONTEND_SERVICE_PORT="53" \
-    RANCHER_ACCESS_KEY="" \
-    RANCHER_HOST="" \
-    RANCHER_HOST_PORT="8080" \
-    RANCHER_PROJECT_ID="1a5" \
-    RANCHER_SECRET_KEY="" \
-    RANCHER_SERVICE_NAME="" \
-    RANCHER_STACK_NAME=""
+ENV BACKEND_SERVICE_NAME="kibana-web" \
+    BACKEND_SERVICE_PORT="5601" \
+    FRONTEND_SERVICE_PORT="5601"
 
 # Copy Ansible Related Files
 COPY config/ansible/ /
@@ -28,8 +22,6 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 
 COPY config/supervisord/*.ini /etc/supervisor.d/
 
-COPY config/rancher-gen/ /etc/
-
-EXPOSE 53 53/udp
+EXPOSE 5601
 
 CMD ["sh"]

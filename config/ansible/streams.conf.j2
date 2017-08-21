@@ -1,0 +1,9 @@
+upstream tcp_upstreams {
+    server {{ backend_service_name }}:{{ backend_service_port }};
+}
+
+server {
+    listen {{ frontend_service_port }};
+    proxy_pass tcp_upstreams;
+    proxy_timeout 1s;
+}

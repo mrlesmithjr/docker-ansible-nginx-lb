@@ -11,10 +11,6 @@
       - 'pcre-dev'
       - 'openssl-dev'
     nginx_version: '1.10.1'
-    rancher_gen_dl: '{{ rancher_gen_url }}/{{ rancher_gen_version }}/{{ rancher_gen_file }}'
-    rancher_gen_file: 'rancher-gen-linux-amd64.tar.gz'
-    rancher_gen_version: 'v0.2.0'
-    rancher_gen_url: 'https://github.com/janeczku/go-rancher-gen/releases/download'
   tasks:
     - name: Updating APK-Cache
       apk:
@@ -45,12 +41,6 @@
       get_url:
         url: "{{ nginx_dl }}"
         dest: "/opt/{{ nginx_dl_file }}"
-
-    # - name: Extracting NGINX
-    #   unarchive:
-    #     src: "/opt/nginx-{{ nginx_version }}.tar.gz"
-    #     dest: "/opt"
-    #     copy: no
 
     - name: Extracting Nginx
       command: "tar -zxvf {{ nginx_dl_file }}"
@@ -103,11 +93,6 @@
       with_items:
         - '/run/nginx'
         - '/etc/nginx/stream.d'
-
-    - name: Installing Rancher-Gen
-      pip:
-        name: "rancher-gen"
-        state: "present"
 
     - name: Cleaning Up Packages
       apk:
